@@ -84,3 +84,8 @@ py main.py
 (Mac / Linux)
 python3 main.py
 ```
+
+`URL of the tweet you want to send a reply cannon: `と出たらリプライ爆弾を送りたいツイートの URL を入力してください。Enter キーで次に進みます。  
+その後、`text(n): `と聞かれるので好きな文字を入力してください。Enter キーで次に進みます。  
+`Ready!`と出たら準備完了です。  
+`Ctrl`キーと`C`キーを押すと終了します。

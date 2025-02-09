@@ -51,11 +51,18 @@ async def main():
     texts.append(input("text(3): "))
     texts.append(input("text(4): "))
     texts.append(input("text(5): "))
+    print("Ready!")
     while True:
-        text = f"{random.choice(texts)}{datetime.now().strftime("(%Y/%m/%d %H:%M:%S)")}"
-        await random.choice(tweets).reply(text)
-        print(f"Tweeted: {text}")
-        await asyncio.sleep(2.5)
+        try:
+            text = f"{random.choice(texts)}{datetime.now().strftime("(%Y/%m/%d %H:%M:%S)")}"
+            await random.choice(tweets).reply(text)
+            print(f"Tweeted: {text}")
+            await asyncio.sleep(2.5)
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            raise e
+    print("bye!")
 
 
 asyncio.run(main())
