@@ -163,8 +163,4 @@ cython_debug/
 
 # 危ないファイルたち
 credentials.json
-cookies_1.json
-cookies_2.json
-cookies_3.json
-cookies_4.json
-cookies_5.json
+cookies/

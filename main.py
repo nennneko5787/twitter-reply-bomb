@@ -3,13 +3,14 @@ import re
 import random
 import json
 from datetime import datetime
+from typing import List
 
 import twikit
 
 with open("credentials.json") as f:
     credentials = json.load(f)
 
-clients: list[twikit.Client] = []
+clients: List[twikit.Client] = []
 
 
 def extractTweetInfo(url: str):
@@ -29,7 +30,7 @@ async def main():
             auth_info_1=c["username"],
             auth_info_2=c["email"],
             password=c["password"],
-            cookies_file=f"cookies_{i}.json",
+            cookies_file=f"./cookies/cookies_{i}.json",
             enable_ui_metrics=True,
         )
 
@@ -40,7 +41,7 @@ async def main():
     username, tweetId = extractTweetInfo(
         input("URL of the tweet you want to send a reply cannon: ")
     )
-    tweets: list[twikit.Tweet] = []
+    tweets: List[twikit.Tweet] = []
     for client in clients:
         tweets.append(await client.get_tweet_by_id(tweetId))
     print("OK, fetched tweet")
@@ -54,7 +55,7 @@ async def main():
         text = f"{random.choice(texts)}{datetime.now().strftime("(%Y/%m/%d %H:%M:%S)")}"
         await random.choice(tweets).reply(text)
         print(f"Tweeted: {text}")
-        await asyncio.sleep(5)
+        await asyncio.sleep(2.5)
 
 
 asyncio.run(main())
