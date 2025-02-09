@@ -163,4 +163,5 @@ cython_debug/
 
 # 危ないファイルたち
 credentials.json
+white-credentials.json
 cookies/

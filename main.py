@@ -31,7 +31,7 @@ async def main():
     for i, c in enumerate(credentials, 1):
         if not c["enable"]:
             continue
-        client = twikit.Client("ja-JP")
+        client = twikit.Client("ja-JP", proxy=settings["proxy"])
         await client.login(
             auth_info_1=c["username"],
             auth_info_2=c["email"],
@@ -60,7 +60,11 @@ async def main():
             texts.append(input(f"text({i}): "))
 
     print("Ready!")
+    count = 0
     while True:
+        if settings["replyCount"] > 0:
+            if count >= settings["replyCount"]:
+                break
         try:
             _one = datetime.now()
             text = f"{random.choice(texts)}{_one.strftime("(%Y/%m/%d %H:%M:%S)")}"
@@ -71,6 +75,7 @@ async def main():
             break
         except Exception as e:
             raise e
+        count += 1
         await asyncio.sleep(2.5)
     print("bye!")
 

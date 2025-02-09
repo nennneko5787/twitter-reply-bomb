@@ -1,7 +1,9 @@
 {
     "enableUIMetrics": true,
     "wait": 5,
+    "replyCount": 10,
     "textsCount": 5,
     "urlPreset": null,
-    "textPresets": []
+    "textPresets": [],
+    "proxy": null
 }
