@@ -7,6 +7,9 @@ from typing import List
 
 import twikit
 
+with open("settings.json") as f:
+    settings = json.load(f)
+
 with open("credentials.json") as f:
     credentials = json.load(f)
 
@@ -22,6 +25,9 @@ def extractTweetInfo(url: str):
 
 
 async def main():
+    print("Twitter-Reply-Bomb v2025.02.09")
+    print("Created by nennneko5787 ( @Fng1Bot )")
+
     for i, c in enumerate(credentials, 1):
         if not c["enable"]:
             continue
@@ -31,37 +37,41 @@ async def main():
             auth_info_2=c["email"],
             password=c["password"],
             cookies_file=f"./cookies/cookies_{i}.json",
-            enable_ui_metrics=True,
+            enable_ui_metrics=settings["enableUIMetrics"],
         )
 
         clientUser = await client.user()
         print(f"Logined as {clientUser.name} (@{clientUser.screen_name}) ({i})")
         clients.append(client)
 
-    username, tweetId = extractTweetInfo(
-        input("URL of the tweet you want to send a reply cannon: ")
-    )
+    if not settings["urlPreset"]:
+        url = input("URL of the tweet you want to send a reply cannon: ")
+    else:
+        url = settings["urlPreset"]
+    _, tweetId = extractTweetInfo(url)
     tweets: List[twikit.Tweet] = []
     for client in clients:
         tweets.append(await client.get_tweet_by_id(tweetId))
-    print("OK, fetched tweet")
-    texts = []
-    texts.append(input("text(1): "))
-    texts.append(input("text(2): "))
-    texts.append(input("text(3): "))
-    texts.append(input("text(4): "))
-    texts.append(input("text(5): "))
+
+    print(f"OK, fetched tweet ({tweets[0].id})")
+    texts: List[str] = settings["textPresets"]
+    if len(texts) <= 0:
+        for i in range(1, settings["textsCount"]):
+            texts.append(input(f"text({i}): "))
+
     print("Ready!")
     while True:
         try:
-            text = f"{random.choice(texts)}{datetime.now().strftime("(%Y/%m/%d %H:%M:%S)")}"
-            await random.choice(tweets).reply(text)
-            print(f"Tweeted: {text}")
-            await asyncio.sleep(2.5)
+            _one = datetime.now()
+            text = f"{random.choice(texts)}{_one.strftime("(%Y/%m/%d %H:%M:%S)")}"
+            tweet = random.choice(tweets)
+            await tweet.reply(text)
+            print(f"Tweeted: {text} ({datetime.now().timestamp() - _one.timestamp()})")
         except KeyboardInterrupt:
             break
         except Exception as e:
             raise e
+        await asyncio.sleep(2.5)
     print("bye!")
 
 

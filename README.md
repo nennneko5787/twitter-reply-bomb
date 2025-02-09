@@ -76,6 +76,11 @@ python3 -m pip install -U -r requirements.txt
 
 `credentials.json` ファイルの書式は、[このドキュメント](credentials.json.md) にて解説しています。
 
+#### `settings.json` ファイルの変更
+
+設定ファイルである`settings.json`ファイルを変更します。
+`settings.json` ファイルの書式は、[このドキュメント](settings.json.md) にて解説しています。
+
 #### 実行
 
 ```
